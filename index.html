@@ -10,14 +10,13 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg); color: white; font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; padding: 0; height: 100vh; overflow: hidden; }
         
-        /* شاشەی بارکردن */
         #loadingOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; }
         .spinner { border: 4px solid rgba(255,255,255,0.1); width: 45px; height: 45px; border-radius: 50%; border-left-color: var(--primary); animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         .main-container { display: flex; flex-direction: column; height: 100vh; padding: 12px; justify-content: flex-start; align-items: center; }
         
-        /* 📱 هێڵی زانیاری شووشەیی مۆدێرن */
+        /* 📱 چاکسازی لە هێڵی زانیاری شووشەیی بۆ ئەوەی دەقەکان تێکنەچن */
         .phone-style-bar {
             display: flex;
             align-items: center;
@@ -27,30 +26,41 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 8px 14px;
+            padding: 8px 12px;
             border-radius: 16px;
             margin-bottom: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            gap: 8px;
         }
         
-        .phone-time-section { display: flex; flex-direction: column; align-items: flex-start; }
-        .phone-clock { font-size: 1.15rem; font-weight: bold; color: #ffffff; line-height: 1.2; }
-        .phone-date { font-size: 0.65rem; color: rgba(255, 255, 255, 0.7); margin-top: 1px; }
+        .phone-time-section { display: flex; flex-direction: column; align-items: flex-start; flex: 1; min-width: 0; }
+        .phone-clock { font-size: 1.1rem; font-weight: bold; color: #ffffff; line-height: 1.2; }
+        .phone-date { font-size: 0.62rem; color: rgba(255, 255, 255, 0.7); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
-        .phone-weather-section { display: flex; align-items: center; gap: 6px; background: rgba(0, 0, 0, 0.35); padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.05); }
-        .phone-temp { font-size: 1rem; font-weight: bold; color: var(--primary); }
-        .phone-city-details { display: flex; flex-direction: column; font-size: 0.65rem; text-align: right; }
-        .phone-gregorian-date { color: rgba(240, 185, 11, 0.85); font-size: 0.65rem; }
+        /* فراوانکردنی بەشی کەشوهەوا بۆ هۆستکردنی ناوی درێژی وەک هەڵبژە */
+        .phone-weather-section { 
+            display: flex; 
+            align-items: center; 
+            gap: 5px; 
+            background: rgba(0, 0, 0, 0.35); 
+            padding: 4px 8px; 
+            border-radius: 20px; 
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            flex-shrink: 0;
+            max-width: 55%;
+            transition: opacity 0.4s ease-in-out;
+        }
+        .phone-temp { font-size: 0.95rem; font-weight: bold; color: var(--primary); white-space: nowrap; }
+        .phone-city-details { display: flex; flex-direction: column; font-size: 0.62rem; text-align: right; min-width: 0; }
+        .phone-city-details div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .phone-gregorian-date { color: rgba(240, 185, 11, 0.85); font-size: 0.62rem; white-space: nowrap; }
 
-        /* ڤیدیۆ پلەیەر */
         video { width: 100%; aspect-ratio: 16/9; border-radius: 12px; border: 1px solid var(--border); background: #000; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
         
-        /* دوگمەکانی خوار ڤیدیۆکە */
         .mobile-controls { display: flex; gap: 10px; width: 100%; margin: 12px 0; }
         .mobile-btn { flex: 1; background: linear-gradient(145deg, #111720, #0d1117); border: 1px solid var(--border); color: #fff; padding: 14px; font-weight: bold; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9rem; transition: 0.1s; }
         .mobile-btn:active { background: var(--primary); color: #000; border-color: var(--primary); }
 
-        /* مینیوەکانی مۆبایل (دێنە سەرەوە لە خوارەوە) */
         .bottom-sheet { 
             position: fixed; bottom: 0; left: 0; width: 100%; height: 65vh; 
             background: #090d13; z-index: 999; border-radius: 24px 24px 0 0; 
@@ -64,7 +74,6 @@
         .sheet-close { background: rgba(255,255,255,0.05); border: none; color: #ff4444; font-size: 1.1rem; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .sheet-content { flex: 1; overflow-y: auto; padding: 12px; }
         
-        /* مینیوی گرووپ و کەناڵەکان لەسەر مۆبایل */
         .group-btn { width: 100%; padding: 14px; background: rgba(255,255,255,0.04); border: none; color: #ccc; cursor: pointer; text-align: right; border-radius: 8px; margin-bottom: 6px; font-size: 0.9rem; }
         .group-btn.active-group { background: var(--primary) !important; color: black !important; font-weight: bold; }
 
@@ -75,7 +84,6 @@
         
         .epg-info { font-size: 0.8rem; color: #aaa; background: rgba(255, 255, 255, 0.04); padding: 8px; border-radius: 8px; display: none; width: 100%; text-align: center; border: 1px solid rgba(255,255,255,0.02); }
 
-        /* خەڵفی تاریک بۆ تەڵخکردنی پشتەوە */
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 990; backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
         .overlay.show { display: block; }
     </style>
@@ -99,9 +107,9 @@
         </div>
         
         <div id="pWeatherBox" class="phone-weather-section">
-            <span id="pIcon" style="font-size: 1.1rem;">☀️</span>
+            <span id="pIcon" style="font-size: 1rem;">☀️</span>
             <div class="phone-city-details">
-                <div><span id="pCity" style="font-weight: bold; color: #fff;">هەولێر</span> • <span id="pDesc" style="color: rgba(255,255,255,0.6); font-size: 0.6rem;">Clear</span></div>
+                <div><span id="pCity" style="font-weight: bold; color: #fff;">هەولێر</span> • <span id="pDesc" style="color: rgba(255,255,255,0.6); font-size: 0.58rem;">Clear</span></div>
                 <span id="pGregorian" class="phone-gregorian-date">بار دەکات...</span>
             </div>
             <span id="pTemp" class="phone-temp">--°C</span>
@@ -153,16 +161,16 @@
     ];
 
     const weatherCodes = {
-        0: { text: 'Clear Sky', icon: '☀️' }, 1: { text: 'Mainly Clear', icon: '🌤️' },
-        2: { text: 'Partly Cloudy', icon: '⛅' }, 3: { text: 'Cloudy', icon: '☁️' },
+        0: { text: 'Clear', icon: '☀️' }, 1: { text: 'Clear', icon: '🌤️' },
+        2: { text: 'Cloudy', icon: '⛅' }, 3: { text: 'Cloudy', icon: '☁️' },
         45: { text: 'Foggy', icon: '🌫️' }, 48: { text: 'Foggy', icon: '🌫️' },
-        51: { text: 'Light Drizzle', icon: '🌦️' }, 53: { text: 'Moderate Drizzle', icon: '🌦️' },
-        55: { text: 'Dense Drizzle', icon: '🌧️' }, 61: { text: 'Slight Rain', icon: '🌧️' },
-        63: { text: 'Moderate Rain', icon: '🌧️' }, 65: { text: 'Heavy Rain', icon: '⛈️' },
-        71: { text: 'Slight Snow', icon: '🌨️' }, 73: { text: 'Moderate Snow', icon: '❄️' },
-        75: { text: 'Heavy Snow', icon: '❄️' }, 80: { text: 'Light Showers', icon: '🌦️' },
-        81: { text: 'Moderate Showers', icon: '🌧️' }, 82: { text: 'Heavy Showers', icon: '⛈️' },
-        95: { text: 'Thunderstorm', icon: '⛈️' }
+        51: { text: 'Drizzle', icon: '🌦️' }, 53: { text: 'Drizzle', icon: '🌦️' },
+        55: { text: 'Drizzle', icon: '🌧️' }, 61: { text: 'Rain', icon: '🌧️' },
+        63: { text: 'Rain', icon: '🌧️' }, 65: { text: 'Heavy Rain', icon: '⛈️' },
+        71: { text: 'Snow', icon: '🌨️' }, 73: { text: 'Snow', icon: '❄️' },
+        75: { text: 'Snow', icon: '❄️' }, 80: { text: 'Showers', icon: '🌦️' },
+        81: { text: 'Showers', icon: '🌧️' }, 82: { text: 'Heavy Showers', icon: '⛈️' },
+        95: { text: 'Storm', icon: '⛈️' }
     };
 
     let cachedWeather = {};
@@ -197,10 +205,10 @@
                 const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current=temperature_2m,weather_code&timezone=Asia/Baghdad`);
                 if(res.ok) {
                     const data = await res.json();
-                    const info = weatherCodes[data.current.weather_code] || { text: 'Clear Sky', icon: '☀️' };
+                    const info = weatherCodes[data.current.weather_code] || { text: 'Clear', icon: '☀️' };
                     cachedWeather[i] = { name: city.name, temp: `${Math.round(data.current.temperature_2m)}°C`, desc: info.text, icon: info.icon };
                 }
-            } catch(e) { console.log("Weather fetch error"); }
+            } catch(e) { console.log("Weather error"); }
         }
     }
 
@@ -260,7 +268,7 @@
             fetchEPG();
             document.getElementById('loadingOverlay').style.display = 'none';
         } catch(e) { 
-            document.getElementById('loadingStatus').innerHTML = "<span style='color:red;'>خەتایەک لە هێنانەوەی مەلەفەکە هەیە!</span>";
+            document.getElementById('loadingStatus').innerHTML = "<span style='color:red;'>خەتا لە لۆدکردنی بەستەرەکە!</span>";
         }
     }
 
@@ -279,7 +287,7 @@
                 if (!epgData[channelId]) epgData[channelId] = [];
                 epgData[channelId].push({ title });
             }
-        } catch (e) { console.log("EPG non-critical error"); }
+        } catch (e) { console.log("EPG block"); }
     }
 
     function parseM3U(data) {
@@ -344,7 +352,7 @@
         renderC(g === "هەمووی" ? allData : allData.filter(x => x.group === g));
         
         if(btnElement) {
-            openSheet('channels'); // ڕاستەوخۆ دوای هەڵبژاردنی گرووپ مینیوی کەناڵەکان دەکاتەوە
+            openSheet('channels');
         }
     }
 </script>
